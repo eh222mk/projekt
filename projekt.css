@@ -1,0 +1,23 @@
+body{
+	
+}
+#head{
+	max-width: 1280px;
+	background-color: teal;
+}
+
+#content{
+	max-width: 1280px;
+	height: auto;
+	
+}
+
+#loginForms{
+	max-width: 380px;
+	border: 1px solid;
+}
+#registerForm{
+	max-width: 380px;
+	border: 1px solid;
+}
+
