@@ -2,6 +2,7 @@
 
 require_once("src/view/RegisterView.php");
 require_once("src/view/newThreadView.php");
+require_once("src/view/ThreadView.php");
 require_once("src/model/database.php");
 
 class View{
@@ -11,8 +12,32 @@ class View{
 	private static $logoutButton = "logoutButton";
 	private static $registerButton = "registerButton";
 	private static $createThreadButton = "createThreadButton";
+	private static $thread = "thread";
+	private static $threadComment = "threadComment";
+	
+	private static $action = "action";
 	
 	private $username = "";
+	
+	public function getAction(){
+		if(isset($_GET[self::$action])){
+			return $_GET[self::$action];
+		}
+		return null;
+	}
+	
+	public function getThread(){
+		if(isset($_GET[self::$thread])){
+			return $_GET[self::$thread];
+		}
+		return null;
+	}
+	
+	public function getThreadComment(){
+		if(isset($_POST[self::$threadComment])){
+			return $_POST[self::$threadComment];
+		}
+	}
 	
 	public function ifLoginAttempt(){
 		if(isset($_POST[self::$loginButton])){
@@ -61,8 +86,7 @@ class View{
 		$html = "";
 		$counter = 0;
 		foreach($threads as $t){
-			$html .= "
-			<h3><a href=''>" . $t['Title'] . "</a></h3><label> av: ". $t['User'] . "</label>";
+			$html .= "<h3><a href='?action=readthread&thread=".$t['Title']."'>" . $t['Title'] . "</a></h3><label> av: ". $t['User'] . "</label>";
 			$counter++;
 		}
 		return $html;
@@ -92,16 +116,15 @@ class View{
 			<h1>Kendoforum</h1>
 		</div>
 		<div id='content'>
+			<h3>Inloggad som $loggedInUser</h3>
+				<form id='logoutForm' action='?action=logout' method='POST'>
+					<input type='submit' value='Logga ut' name='" . self::$logoutButton ."' />
+				</form>
 			<h2>Trådar: </h2>
-			<form id='createThreadForm' action='?createThread' method='POST'>
+			<form id='createThreadForm' action='?action=createthread' method='POST'>
 				<input type='submit' value='Skapa tråd' name='" . self::$createThreadButton . "' />
 			</form>" 
 			. $this->getThreadHeaders() . "
-			<h3>Logga in</h3>
-				<p>Inloggad som $loggedInUser</p>
-			<form id='logoutForm' action='?logout' method='POST'>
-				<input type='submit' value='Logga ut' name='" . self::$logoutButton ."' />
-			</form>
 		</div>";
 	}//end of method	
 	
@@ -115,6 +138,11 @@ class View{
 		return $newThreadView->getNewThreadPage();
 	}//end of method
  	
+ 	public function getThreadPage($thread){
+ 		$threadView = new ThreadView();
+		return $threadView->getThreadPage($thread);
+ 	}
+ 	
 	public function pageBodyLoggedOut(){
 		return "
 		<div id='head'>
@@ -125,13 +153,13 @@ class View{
 			<p> </p>
 			<h3>Logga in</h3>
 			<div id='loginForms'>
-				<form id='loginForm' action='?login' method='POST'> 
+				<form id='loginForm' action='?action=login' method='POST'> 
 					<p>Username <input type='text' name=". self::$loginName ." /> </p>
 					<p>Password <input type='password' name=". self::$loginPassword ." /> </p>
 					<input type='submit' value='Logga in' name=" . self::$loginButton ." />
-					<form id='rForm' action='?register' method='POST'>
-						<input type='submit' value='Registrera' name=" . self::$registerButton ." />
-					</form>
+				</form>
+				<form id='rForm' action='?action=register' method='POST'>
+					<input type='submit' value='Registrera' name=" . self::$registerButton ." />
 				</form>
 			</div>
 		</div>";

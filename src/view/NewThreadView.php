@@ -32,12 +32,12 @@ class NewThreadView{
 		</div>
 		<div id='content'>
 			<h3>Ny tråd:</h3>
-			<form id='newThreadForm' action='?createNewThread' method='POST'>
+			<form id='newThreadForm' action='?action=createNewThread' method='POST'>
 				<p>Rubrik<input type='text' name=" . self::$threadTitle . " /></p>
 				<p>Innehåll<input type='textarea' name=" . self::$threadContent ." /></p>
 				<input type='submit' value='Skapa tråd' name='" . self::$submitNewThread ."' /></p>
 			</form>
-			<a href=''>Tillbaka</a>
+			<a href='/php/projekt/'>Tillbaka</a>
 		</div>";
 	}
 }

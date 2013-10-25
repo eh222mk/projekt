@@ -1,6 +1,6 @@
 <?php
 
-require_once("src/model/Threads.php");
+require_once("src/model/Thread.php");
 
 class Database{
 	
@@ -51,17 +51,54 @@ class Database{
 		mysql_close();
 	}
 	
+	public function getThreadContent($title){
+		$this->connectToDatabase();
+		$query = "SELECT * FROM thread WHERE Title ='$title'";
+		$result = mysql_query($query);	
+		$row = mysql_fetch_row($result);
+		
+		$thread = new thread();
+		$thread->setTitle($title);
+		$thread->setContent($row[2]);
+		$thread->setUser($row[3]);
+		mysql_close();
+		return $thread;
+	}
+	
 	public function getThreads(){
 		$this->connectToDatabase();
 		$query = "SELECT * FROM thread";
 		$result = mysql_query($query);
 		$counter = 0;
 		while($row = mysql_fetch_array($result)){
-			$rows[$counter] = $row;//mysql_fetch_array($result);
+			$rows[$counter] = $row;
 			$counter++;
 		}
 		
 		mysql_close();
 		return $rows;
 	}
+	
+	public function insertNewComment($comment, $thread, $user){
+		$this->connectToDatabase();
+		$query = "INSERT INTO threadcomments(Thread,Comment,User) 
+				  VALUES (\"" . $thread . "\",\"" . $comment . "\",\"" . $user . "\")";		
+		mysql_query($query) or die("Query didn't work");
+		mysql_close();
+	}
+	
+	public function getComments($thread){
+		$this->connectToDatabase();
+		$query = "SELECT * FROM threadcomments WHERE Thread='$thread' ORDER BY commentID DESC";
+		$result = mysql_query($query);
+		$counter = 0;
+		$rows = null;
+		while($row = mysql_fetch_array($result)){
+			$rows[$counter] = $row;
+			$counter++;
+		}
+		mysql_close();
+		return $rows;
+	}
+	
 }

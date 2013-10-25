@@ -37,13 +37,15 @@ class RegisterView{
 	}
 	
 	public function getRegisterPage(){
+		$errorMessage = RegisterModel::$errorMessage;
 		return "
 		<div id='head'>
 			<h1>Kendoforum</h1>
 		</div>
 		<div id='content'>
 			<h3>Registrera</h3>
-			<form id='registerForm' action='?registerUser' method='POST'>
+			$errorMessage
+			<form id='registerForm' action='?action=registerUser' method='POST'>
 				<p>Användarnamn<input type='text' name=". self::$registerUsername ." /></p>
 				<p>Lösenord<input type='password' name=" . self::$registerPassword ." /></p>
 				<p>Repetera Lösenord<input type='password' name=" . self::$repeatRegisterPassword ." /></p>
