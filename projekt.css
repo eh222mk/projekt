@@ -1,23 +1,184 @@
-body{
-	
-}
 #head{
-	max-width: 1280px;
-	background-color: teal;
+	max-width: 1028px;
+	height: 180px;
+	background-image: url("files/header.jpg");
 }
 
 #content{
-	max-width: 1280px;
+	max-width: 1028px;
 	height: auto;
-	
+	background-color: white;
 }
 
+#deleteLink{
+	margin-left:950px;
+	text-decoration: none;
+}
+
+#threads{
+	float: left;
+	padding-left: 75px;
+	width: 640px;
+}
+
+#threadHeader{
+	border: 1px solid;
+	margin-right: 30px;
+	margin-top: 5px;
+}
+
+#threadLink{
+	padding-left: 10px;
+	text-decoration: none; 
+}
+
+#threadLinkUser{
+	padding-left: 10px;
+}
+
+#threadTitle h2{
+	font-size: 200%;
+}
+
+#threadTitle{
+	width: 350px;
+}
+
+#threadContentTitle{
+	border: 1px solid;
+	width: 720px;
+	height: auto;
+	padding: 10px;
+}
+
+#threadPage{
+	margin-left: 30px;
+}
+
+#threadPage a{
+	margin-left: 410px;
+}
+
+#threadPage h2{
+	font-size: 200%;
+}
+
+#threadComments{
+	max-width: 720px;
+}
+
+#userComment{
+	border: 1px solid;
+	margin: 5px;
+}
+
+#userComment h4{
+	padding-left: 10px;
+}
+
+#userComment p{
+	padding-left: 10px;
+}
+
+#threadContent{
+	width: 720px;
+	max-height: 500px;
+}
+
+#threadContentText{
+	width: 520px;
+	height: 150px;
+}
+
+#threadContent label{
+	color: red;
+}
+
+#threadComment{
+	width: 400px;
+	height: 100px;
+}
+
+
+#newThreadPage{
+	margin-left: 30px;
+}
+
+#newThreadErrorMessage{
+	color: red;
+}
+
+#newThreadContent{
+	width: 400px;
+	height: 150px;
+}
+
+#newThreadTitle{
+	width: 400px;
+	height: 150px;
+}
 #loginForms{
-	max-width: 380px;
+	width: 280px;
 	border: 1px solid;
+	padding-left: 15px;
+	margin-top: 66px;
+	margin-bottom: 100px;
+	float: left;
 }
+
+#loginErrorMessage{
+	color: red;
+}
+
+#submitButton{
+	margin-left: 75px;
+	margin-top: -40px;
+}
+
+#registerPage{
+	margin-left: 100px;
+}
+
+#registerPage p{
+	margin-left: 20px;
+}
+
 #registerForm{
-	max-width: 380px;
+	min-width: 380px;
+	max-width: 520px;
 	border: 1px solid;
 }
+
+#registerName{
+	margin-left: 48px;
+	width: 200px;
+}
+
+#registerPassword{
+	margin-left: 80px;
+	width: 200px;
+}
+
+#registerRepeatPassword{
+	margin-left: 21px;
+	width: 200px;
+}
+
+#registerEmail{
+	margin-left: 105px;
+	width: 200px;
+}
+
+#registerButton{
+	margin-left: 20px;
+}
+
+#registerErrorMessage{
+	color: red;
+}
+
+#headertext{
+	color: transparent;
+}
+
 

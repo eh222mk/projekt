@@ -5,32 +5,54 @@ require_once("src/model/Session.php");
 
 class loginModel{
 	
+	/**
+	 * Value of errormessage
+	 */	
+	public static $errorMessage = 0;
+	
+	/**
+	 * instance of classes
+	 */
 	private $database;
 	private $session;
 	
+	/**
+	 * declares instance of classes
+	 */
 	public function __construct(){
 		$this->database = new Database();
 		$this->session = new Session();
 	}
 	
+	/**
+	 * @param string username
+	 * @param string password
+	 * @return boolean
+	 */
 	public function checkUserCredential($username, $password){
 		if($username == ""){
+			self::$errorMessage = 1;
 			return false;
 		}
 		else if($password == ""){
+			self::$errorMessage = 2;
 			return false;
 		}
-		else{
-			$this->doLogin($username, $password);
+		else if($this->database->ifLoginSuccess($username, $password)){
+			$this->session->setSession($username);
+			if($this->database->ifUserAdmin($username)){
+				$this->session->setSessionAdmin(true);
+			}
+			else{
+				$this->session->setSessionAdmin(false);	
+			}
+			
 			return true;
 		}
-		return false;
-	}
-	
-	private function doLogin($username, $password){
-		if($this->database->ifLoginSuccess($username, $password)){
-			$this->session->setSession($username);
+		else{
+			self::$errorMessage = 3;
 		}
+		return false;
 	}
 	
 	public function doLogout(){

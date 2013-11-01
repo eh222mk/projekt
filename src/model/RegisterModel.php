@@ -5,57 +5,64 @@ require_once("src/model/RegisterMessage.php");
 
 class RegisterModel{
 	
-	private $database;
+	/**
+	 * the error value
+	 */
 	public static $errorMessage = "";
-	
+
+	/**
+	 * instance of class
+	 */
+	private $database;	
 	public function __construct(){
 		$this->database = new Database();
 	}
 	
+	/**
+	 * @param UserCredential registerValues
+	 * @return boolean
+	 */
 	public function registerUser(UserCredential $registerValues){
 		$validRegister = $this->ifValidRegisterCredential($registerValues);
 		if($validRegister){
-			//$this->database->insertUserInDatabase($registerValues);
-			//@TODO fix so page doesn't reload back to first page.
-			//return true;
+			$this->database->insertUserInDatabase($registerValues);
+			return true;
 		}
-		//return false;
+		return false;
 	}
 	
+	/**
+	 * @param UserCredential registerValues
+	 * @return boolean
+	 */
 	private function ifValidRegisterCredential(UserCredential $registerValues){
 		$username = $registerValues->getUsername();
 		$password = $registerValues->getPassword();
 		$repeatPassword = $registerValues->getRepeatPassword();
 		$email = $registerValues->getEmail();
-
 		if($username == ""){
 			self::$errorMessage = RegisterMessage::NoUsername;	
-			//echo "Var vänlig ange ett Användarnamn!";
 			return false;	
-		}
-		else if(strlen($username) < 4 || strlen($username) > 20){
+		}else if(strlen($username) < 4 || strlen($username) > 20){
 			self::$errorMessage = RegisterMessage::ErrorUsernameLength;	
-			//echo "felaktigt användarnamn! Måste vara mellan 4 och 20 tecken!";
 			return false;
-		}
-		if(strlen($password) == ""){
+		}else if(strlen($password) == ""){
 			self::$errorMessage = RegisterMessage::NoPassword;
-			//echo "Var vänlig ange ett lösenord!";
 			return false;
-		}
-		else if(strlen($password) < 6 || strlen($password) > 30){
+		}else if(strlen($password) < 6 || strlen($password) > 30){
 			self::$errorMessage = RegisterMessage::ErrorPasswordLength;
-			//echo "felaktigt Lösenord! Måste vara mellan 6 och 30 tecken!";
 			return false;	
-		}
-		else if($password != $repeatPassword){
+		}else if($password != $repeatPassword){
 			self::$errorMessage = RegisterMessage::PasswordsNotSame;
-			//echo "Lösenorden stämmer inte överens! Var vänlig försök igen!";
 			return false;
-		}
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		}else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 			self::$errorMessage = RegisterMessage::ErrorEmail;
-			//echo "Emailadressen är inte giltig!";
+			return false;
+		}else if($this->database->userExist($username)){
+			self::$errorMessage = RegisterMessage::UserExist;
+			return false;
+		}else if($username != strip_tags($username) || $password != strip_tags($password)){
+			self::$errorMessage = RegisterMessage::SqlInjection;
 			return false;
 		}
 		return true;
