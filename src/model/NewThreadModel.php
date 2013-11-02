@@ -27,6 +27,7 @@ class NewThreadModel{
 	 * @param string title
 	 * @param string content
 	 * @return boolean
+	 * @exception thrown if unauthorized user attempts to get access to create thread
 	 */
 	public function createThread($title, $content){
 		
@@ -92,7 +93,7 @@ class NewThreadModel{
 		if($title == strip_tags($title) && $content == strip_tags($content)){
 			return true;
 		}else{
-			echo"Försök ej SQL injection!";
+			self::$newThreadErrorMessage = NewThreadMessage::SqlInjectionAttempt;
 		}
 		return false;
 	}//end of method
