@@ -30,15 +30,16 @@ class View{
 	 */
 	private $username = "";
 	private $loginErrorMessage = "";
-	
+	private $newThreadView;
 	/**
 	 * Feedback from when failing to creat a new thread
 	 */
 	private static $threadComment;
 	public function __construct(){
-		$this->threadView = new ThreadView;
+		$this->threadView = new ThreadView();
 		self::$threadComment = $this->threadView->getThreadComment();
 		self::$threadViewUser = ThreadView::$user;
+		$this->newThreadView = new NewThreadView();
 	}
 	
 	/**
@@ -319,8 +320,7 @@ class View{
 	 * @return html
 	 */		
 	public function getNewThreadPage(){
-		$newThreadView = new NewThreadView();
-		return $newThreadView->getNewThreadPage();
+		return $this->newThreadView->getNewThreadPage();
 	}//end of method
 
 	/**
